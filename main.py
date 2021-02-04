@@ -9,7 +9,14 @@ def clrscr():
     system('cls') if name == 'nt' else system('clear')
 
 def displaybook():
-    pass
+    clrscr()
+    with open(filename) as dbfile:
+        reader = csv.DictReader(dbfile)
+        books = [dict(row) for row in reader]
+        print(*(f'{field:25}' for field in fields))
+        for row in books:
+            print(*(f'{value:25}' for value in row.values()))
+    input("Press Enter to go back...")
 
 def addbook():
     pass
