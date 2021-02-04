@@ -39,6 +39,25 @@ def addbook():
     else:
         input("Cancelled! Press Enter to continue...")
 
+def searchbook():
+    clrscr()
+    print("""---Search function---
+            Search by:
+                1 - Title
+                2 - Author
+                3 - Genre
+                4 - Year""")
+    method = input(">> ")
+    searchkey = input(f"Input the book's {fields[int(method)]}\n>> ")
+    with open(filename) as dbfile:
+        reader = csv.DictReader(dbfile)
+        books = [dict(row) for row in reader]
+        print(*(f'{field:25}' for field in fields))
+        print(*(f'{value:25}' for row in books for value in row.values() if row[fields[int(method)]] == searchkey))
+    print()
+    input("Press Enter to Continue...")
+
+
 ## initial variables
 fields = ['ID', 'Title', 'Author', 'Genre', 'Year']
 filename = 'database.csv'
@@ -55,12 +74,15 @@ while(choice.lower() != "x"):
         Menu :
             1 - Display books
             2 - Add a book
+            3 - Search books
             x - Quit the apps""")
     choice = input(">> ")
     if choice == '1':
         displaybook()
     elif choice == '2':
         addbook()
+    elif choice == '3':
+        searchbook()
     elif choice.lower() == 'x':
         print("Thank you for using our apps!")
     else:
