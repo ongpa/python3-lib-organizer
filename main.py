@@ -19,7 +19,25 @@ def displaybook():
     input("Press Enter to go back...")
 
 def addbook():
-    pass
+    clrscr()
+    print("Add another book to database:")
+    global last_id
+    newbook = {
+            'ID' : last_id + 1,
+            'Title' : input("Book's title    : "),
+            'Author' : input("Book's Author   : "),
+            'Genre' : input("Book's Genre    : "),
+            'Year' : input("Book's Year     : ")
+            }
+    valid = input("Are you sure to add the book above? y/n\n>> ")
+    if valid.lower() == "y":
+        last_id += 1
+        with open(filename, 'a') as dbfile:
+            writer = csv.DictWriter(dbfile, fieldnames=fields)
+            writer.writerow(newbook)
+        input("Books added! Press Enter to continue...")
+    else:
+        input("Cancelled! Press Enter to continue...")
 
 ## initial variables
 fields = ['ID', 'Title', 'Author', 'Genre', 'Year']
@@ -27,7 +45,7 @@ filename = 'database.csv'
 with open(filename) as dbfile:
     reader = csv.DictReader(dbfile)
     data = [dict(row) for row in reader]
-last_id = data[-1].get('ID') if data != [] else 0
+last_id = int(data[-1].get('ID')) if data != [] else 0
 choice = ''
 
 ## Main Menu
@@ -41,6 +59,8 @@ while(choice.lower() != "x"):
     choice = input(">> ")
     if choice == '1':
         displaybook()
+    elif choice == '2':
+        addbook()
     elif choice.lower() == 'x':
         print("Thank you for using our apps!")
     else:
