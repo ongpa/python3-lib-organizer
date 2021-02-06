@@ -77,13 +77,9 @@ while(choice.lower() != "x"):
             3 - Search books
             x - Quit the apps""")
     choice = input(">> ")
-    if choice == '1':
-        displaybook()
-    elif choice == '2':
-        addbook()
-    elif choice == '3':
-        searchbook()
-    elif choice.lower() == 'x':
-        print("Thank you for using our apps!")
-    else:
-        input("Invalid Choice!")
+    switcher = {
+            '1' : displaybook,
+            '2' : addbook,
+            '3' : searchbook,
+            'x' : lambda : print("Thank you for using our apps!")
+            }.get(choice, lambda: input("Invalid Choice!"))()
